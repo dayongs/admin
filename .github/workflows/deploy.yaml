@@ -1,0 +1,27 @@
+name: 'deploy'
+
+on:
+  push:
+    branches:
+      - 'prod'
+
+jobs:
+  cicd:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        name: Check out code
+      - uses: docker/setup-qemu-action@v1
+        name: Set up QEMU
+      - uses: docker/login-action@v1
+        name: Login to HWCloud
+        with:
+          registry: swr.cn-north-1.myhuaweicloud.com
+          username: ${{ secrets.HWCLOUD_USERNAME }}
+          password: ${{ secrets.HWCLOUD_PASSWORD }}
+      - uses: docker/build-push-action@v2
+        name: Build and push
+        with:
+          push: true
+          tags: swr.cn-north-1.myhuaweicloud.com/lianren/admin:latest
+          file: Dockerfile
