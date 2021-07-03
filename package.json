@@ -1,5 +1,5 @@
 {
-  "name": "lr_admin",
+  "name": "admin",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -11,10 +11,12 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.4.5",
     "moment": "^2.29.1",
+    "node-sass": "^6.0.1",
     "numeral": "^2.0.6",
     "quill-image-drop-module": "^1.0.3",
     "quill-image-paste-module": "^1.0.6",
     "quill-image-resize-module": "^3.0.0",
+    "sass-loader": "^12.1.0",
     "vue": "^2.6.11",
     "vue-quill-editor": "^3.0.6",
     "vue-router": "^3.2.0"
