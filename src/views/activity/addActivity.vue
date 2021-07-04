@@ -1,4 +1,4 @@
-<template>
+ <template>
   <div>
     <!--  面包屑  -->
     <el-breadcrumb separator="/">
@@ -94,19 +94,19 @@
 
 
             <!--   用于替换编辑器base64上传         -->
-            <div style="display:none;">
-              <el-upload class="edit-uploader" :action="actionURL.contentImgPath"
-                         :show-file-list="false"
-                         :on-success="editorUploadSuccess"
-                         :on-error="editorUploadError"
-                         :before-upload="beforeEditorUpload" >
-                <i class="el-icon-plus avatar-uploader-icon" ref="aUpload"></i>
-              </el-upload>
-            </div>
+<!--            <div style="display:none;">-->
+<!--              <el-upload class="edit-uploader" :action="actionURL.contentImgPath"-->
+<!--                         :show-file-list="false"-->
+<!--                         :on-success="editorUploadSuccess"-->
+<!--                         :on-error="editorUploadError"-->
+<!--                         :before-upload="beforeEditorUpload" >-->
+<!--                <i class="el-icon-plus avatar-uploader-icon" ref="aUpload"></i>-->
+<!--              </el-upload>-->
+<!--            </div>-->
 
-            <el-form-item label="活动内容" >
-              <quill-editor ref="myQuillEditor"  v-model="activity.content" class="myQuillEditor" :options="editorOption" />
-            </el-form-item>
+<!--            <el-form-item label="活动内容" >-->
+<!--              <quill-editor ref="myQuillEditor"  v-model="activity.content" class="myQuillEditor" :options="editorOption" />-->
+<!--            </el-form-item>-->
             <el-form-item >
               <el-button type="primary" @click="addActivity">提交</el-button>
             </el-form-item>
@@ -137,47 +137,48 @@ export default {
   },
   data() {
     return {
-      editorOption: {
-        modules: {
-          imageResize:{          //放大缩小
-            displaySize: true
-          },
-          toolbar: {container:[
-              ['bold', 'italic', 'underline', 'strike'],
-              ['blockquote', 'code-block'],
-              [{ 'header': 1 }, { 'header': 2 }],
-              [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-              [{ 'script': 'sub' }, { 'script': 'super' }],
-              [{ 'indent': '-1' }, { 'indent': '+1' }],
-              [{ 'direction': 'rtl' }],
-              [{ 'size': ['small', false, 'large', 'huge'] }],
-              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-              [{ 'font': [] }],
-              [{ 'color': [] }, { 'background': [] }],
-              [{ 'align': [] }],
-              ['clean'],
-              ['link', 'image']
-            ],
-            handlers: {
-              'image': function(value) {
-                if (value) {
-                  document.querySelector('.edit-uploader input').click()
-                } else {
-                  this.quill.format('image', false);
-                }
-                // this.$refs.aUpload.click() //自定义图片上传回调
-              }
-            }
-          },
-          syntax: {
-            highlight: text => hljs.highlightAuto(text).value
-          }
-        },
-      },
-      actionURL: {
-        posterPath:this.$http.defaults.baseURL+'/activities/poster',//海报提交地址
-        contentImgPath:this.$http.defaults.baseURL+'/activities/content',//编辑器内图片地址
-      },
+      //去掉新增活动的编辑器和海报上传，api 要有添加后有活动id 才能添加，改两块功能填入到edit 里面去
+      // editorOption: {
+      //   modules: {
+      //     imageResize:{          //放大缩小
+      //       displaySize: true
+      //     },
+      //     toolbar: {container:[
+      //         ['bold', 'italic', 'underline', 'strike'],
+      //         ['blockquote', 'code-block'],
+      //         [{ 'header': 1 }, { 'header': 2 }],
+      //         [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+      //         [{ 'script': 'sub' }, { 'script': 'super' }],
+      //         [{ 'indent': '-1' }, { 'indent': '+1' }],
+      //         [{ 'direction': 'rtl' }],
+      //         [{ 'size': ['small', false, 'large', 'huge'] }],
+      //         [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      //         [{ 'font': [] }],
+      //         [{ 'color': [] }, { 'background': [] }],
+      //         [{ 'align': [] }],
+      //         ['clean'],
+      //         ['link', 'image']
+      //       ],
+      //       handlers: {
+      //         'image': function(value) {
+      //           if (value) {
+      //             document.querySelector('.edit-uploader input').click()
+      //           } else {
+      //             this.quill.format('image', false);
+      //           }
+      //           // this.$refs.aUpload.click() //自定义图片上传回调
+      //         }
+      //       }
+      //     },
+      //     syntax: {
+      //       highlight: text => hljs.highlightAuto(text).value
+      //     }
+      //   },
+      // },
+      // actionURL: {
+      //   posterPath:this.$http.defaults.baseURL+'/activities/poster',//海报提交地址
+      //   contentImgPath:this.$http.defaults.baseURL+'/activities/content',//编辑器内图片地址
+      // },
 
 
       loading: false,
@@ -187,8 +188,8 @@ export default {
 
       activity:{
         title:'',
-        poster: '',//七牛存储地址
-        posterView:'',//当前显示图片全地址
+        // poster: '',//七牛存储地址
+        // posterView:'',//当前显示图片全地址
         province_code :0,
         city_code  :0,
         district_code :0,
@@ -199,8 +200,8 @@ export default {
         showRang:[],
         applyRang:[],
         price   :0,
-        num:0,
-        contact:'',
+        plan_num:0,
+        // contact:'',
         is_pair : false,
         user_uuid :'',
       },
@@ -208,7 +209,9 @@ export default {
 
     }
   },
-  created() {},
+  created() {
+
+  },
   methods:{
     //
     handleChange1(value) {
@@ -226,53 +229,53 @@ export default {
     },
 
 
-    //海报上传
-    handlePosterSuccess(res, file) {
-      // this.activity.poster = URL.createObjectURL(file.raw);
-      this.activity.poster=res.qi,
-      this.activity.posterView=res.url
-    },
-    beforePosterUpload(file) {
-      const isJPG = file.type === 'image/jpeg';
-      const isLt2M = file.size / 1024 / 1024 < 2;
-      if (!isJPG) {
-        this.$message.error('上传头像图片只能是 JPG 格式!');
-      }
-      if (!isLt2M) {
-        this.$message.error('上传头像图片大小不能超过 2MB!');
-      }
-      return isJPG && isLt2M;
-    },
+    // //海报上传
+    // handlePosterSuccess(res, file) {
+    //   // this.activity.poster = URL.createObjectURL(file.raw);
+    //   this.activity.poster=res.qi,
+    //   this.activity.posterView=res.url
+    // },
+    // beforePosterUpload(file) {
+    //   const isJPG = file.type === 'image/jpeg';
+    //   const isLt2M = file.size / 1024 / 1024 < 2;
+    //   if (!isJPG) {
+    //     this.$message.error('上传头像图片只能是 JPG 格式!');
+    //   }
+    //   if (!isLt2M) {
+    //     this.$message.error('上传头像图片大小不能超过 2MB!');
+    //   }
+    //   return isJPG && isLt2M;
+    // },
 
-    //富文本上传图片
-    beforeEditorUpload() {
-      // 显示loading动画
-      this.quillUpdateImg = true
-    },
-    editorUploadSuccess(res, file) {
-      // 获取富文本组件实例
-      let quill = this.$refs.myQuillEditor.quill
-      // 如果上传成功
-      if (res) {
-        // 获取光标所在位置
-        let length = quill.getSelection().index;
-        // 插入图片  res.url为服务器返回的图片地址
-        quill.insertEmbed(length, 'image', res.url)
-        // 调整光标到最后
-        quill.setSelection(length + 1)
-      } else {
-        this.$message.error('图片插入失败')
-      }
-      // loading动画消失
-      this.quillUpdateImg = false
-    },
-
-    // 富文本图片上传失败
-    editorUploadError() {
-      // loading动画消失
-      this.quillUpdateImg = false
-      this.$message.error('图片插入失败')
-    },
+    // //富文本上传图片
+    // beforeEditorUpload() {
+    //   // 显示loading动画
+    //   this.quillUpdateImg = true
+    // },
+    // editorUploadSuccess(res, file) {
+    //   // 获取富文本组件实例
+    //   let quill = this.$refs.myQuillEditor.quill
+    //   // 如果上传成功
+    //   if (res) {
+    //     // 获取光标所在位置
+    //     let length = quill.getSelection().index;
+    //     // 插入图片  res.url为服务器返回的图片地址
+    //     quill.insertEmbed(length, 'image', res.url)
+    //     // 调整光标到最后
+    //     quill.setSelection(length + 1)
+    //   } else {
+    //     this.$message.error('图片插入失败')
+    //   }
+    //   // loading动画消失
+    //   this.quillUpdateImg = false
+    // },
+    //
+    // // 富文本图片上传失败
+    // editorUploadError() {
+    //   // loading动画消失
+    //   this.quillUpdateImg = false
+    //   this.$message.error('图片插入失败')
+    // },
 
 
     //提交活动
@@ -284,7 +287,7 @@ export default {
         title:this.activity.title,
         content:this.activity.content,
         summary:this.activity.summary,
-        poster:this.activity.poster,
+        // poster:this.activity.poster,
 
         start_at:this.momentRang(this.activity.openRang[0]),
         end_at:this.momentRang(this.activity.openRang[1]),
@@ -300,9 +303,9 @@ export default {
         district_code:this.areasValue[2],
 
         price:this.activity.price,
-        num:this.activity.num,
-        contact:this.activity.contact,
-        is_pair:1,
+        plan_num:this.activity.plan_num,
+        // contact:this.activity.contact,
+        is_pair:this.activity.is_pair,
       })
       this.loading=false;
       console.log('activity',activity)

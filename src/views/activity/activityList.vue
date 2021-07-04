@@ -26,7 +26,7 @@
         v-loading="loading"
         :data="tableData"
         style="width: 100%">
-      <!-- 活动详情-->
+      <!-- 箭头 展开活动详情-->
       <el-table-column type="expand">
         <template slot-scope="props">
           <el-form label-position="left" inline class="demo-table-expand">
@@ -34,16 +34,17 @@
               <span>{{ props.row.title }}</span>
             </el-form-item>
             <el-form-item label="海   报:">
-              <span><img :src="domain + props.row.poster " fit="contain" alt="" style="width:50px;"/> </span>
+<!--              <span><img :src="domain + props.row.poster " fit="contain" alt="" style="width:50px;"/> </span>-->
+              <span><img :src="props.row.poster_url " fit="contain" alt="" style="width:50px;"/> </span>
             </el-form-item>
             <el-form-item label="费   用:">
               <span>{{ props.row.price }}</span>
             </el-form-item>
             <el-form-item label="人   数:">
-              <span>{{ props.row.num }}</span>
+              <span>{{ props.row.plan_num }}</span>
             </el-form-item>
             <el-form-item label="城   市:">
-              <span>{{showCity(props.row.province_code,props.row.city_code,props.row.district_code)+ props.row.address }}</span>
+              <span>{{ props.row.full_address }}</span>
             </el-form-item>
             <el-form-item label="现场匹配:">
               <span>{{ props.row.is_pair? '支持':"不" }}</span>
@@ -70,7 +71,7 @@
           </el-form>
         </template>
       </el-table-column>
-
+<!--列表-->
       <el-table-column
           prop="id"
           label="id"
@@ -79,9 +80,12 @@
       <el-table-column
           prop="poster"
           width="70">
+<!--        <template slot-scope="scope" class="block" >-->
+<!--          {{domain.qiNiuUrl}}-->
+<!--          <img :src="domain +scope.row.poster"  fit="contain" alt="" style="width: 50px;">-->
+<!--        </template>-->
         <template slot-scope="scope" class="block" >
-          {{domain.qiNiuUrl}}
-          <img :src="domain +scope.row.poster"  fit="contain" alt="" style="width: 50px;">
+          <img :src="scope.row.poster_url"  fit="contain" alt="" style="width: 50px;">
         </template>
       </el-table-column>
       <el-table-column
@@ -258,8 +262,10 @@ export default {
           keyword:this.keyword,//搜索
         }
       })
+
       this.loading=false
       this.tableData=activities.data
+      console.log('222',this.tableData);
       this.total=this.tableData.length
     },
 

@@ -31,7 +31,7 @@
               <el-input-number v-model="activity.price":precision="2" controls-position="right"  :min="0" :max="10"></el-input-number>
             </el-form-item>
             <el-form-item label="人数" >
-              <el-input-number v-model="activity.num" controls-position="right"  :min="1" :max="100"></el-input-number>
+              <el-input-number v-model="activity.plan_num" controls-position="right"  :min="1" :max="100"></el-input-number>
             </el-form-item>
             <!--   城市-->
             <el-form-item label="城市选择" >
@@ -41,6 +41,7 @@
                   v-model="areasValue"
                   v-loading="cityloading"
                   @change="handleChange1"
+                  style="width:400px"
                   filterable>
               </el-cascader>
               <el-input v-model="activity.address" ></el-input>
@@ -83,7 +84,7 @@
             </el-form-item>
 
             <el-form-item label="联系方式">
-              <el-input v-model="activity.contact" ></el-input>
+              <el-input v-model="activity.contact" style="width:200px"></el-input>
             </el-form-item>
 
 
@@ -95,7 +96,7 @@
 
             <!--   用于替换编辑器base64上传         -->
             <div style="display:none;">
-              <el-upload class="edit-uploader" :action="actionURL.contentImgPath"
+              <el-upload class="edit-uploader" :action="actionURL.contentsImgPath"
                          :show-file-list="false"
                          :on-success="editorUploadSuccess"
                          :on-error="editorUploadError"
@@ -174,9 +175,13 @@ export default {
           }
         },
       },
+      // actionURL: {
+      //   posterPath:this.$http.defaults.baseURL+'/activities/poster',//海报提交地址
+      //   contentImgPath:this.$http.defaults.baseURL+'/activities/content',//编辑器内图片地址
+      // },
       actionURL: {
-        posterPath:this.$http.defaults.baseURL+'/activities/poster',//海报提交地址
-        contentImgPath:this.$http.defaults.baseURL+'/activities/content',//编辑器内图片地址
+        posterPath:'',//海报提交地址
+        contentsImgPath:'',//编辑器内图片地址
       },
 
 
@@ -188,7 +193,7 @@ export default {
       activity:{
         id:0,
         title:'',
-        poster: '',//七牛存储地址
+        // poster: '',//七牛存储地址
         posterView:'',//当前显示图片全地址
         province_code :0,
         city_code  :0,
@@ -200,7 +205,7 @@ export default {
         showRang:[],
         applyRang:[],
         price   :0,
-        num:0,
+        plan_num:0,
         contact:'',
         is_pair : false,
         user_uuid :'',
@@ -212,6 +217,8 @@ export default {
   created() {
     this.activity.id=this.$route.query.id
     // console.log(this.activity.id)
+    this.actionURL.posterPath=this.$http.defaults.baseURL+'/activities/'+this.activity.id+'/poster';//海报提交地址
+    this.actionURL.contentsImgPath=this.$http.defaults.baseURL+'/activities/'+this.activity.id+'/contents';//编辑器内图片地址
     this.getActivity()
     this.areas=JSON.parse( localStorage.getItem('areasData'))//转为对象//加载城市
   },
@@ -223,10 +230,10 @@ export default {
       const url='/activities/'+this.activity.id
       const activity= await this.$http.get(url,{})
       let a=activity.data
-      // console.log(a)
+      console.log(a)
       this.activity.title=a.title
-      this.activity.poster=a.poster
-      this.activity.posterView=domain.qiNiuUrl+'/' +a.poster
+      // this.activity.poster=a.poster
+      this.activity.posterView=a.poster_url
       this.areasValue=[a.province_code,a.city_code,a.district_code]
       this.activity.address=a.address
       this.activity.summary=a.summary
@@ -237,7 +244,7 @@ export default {
       this.activity.applyRang=[a.apply_start_at,a.apply_end_at]
 
       this.activity.price=a.price
-      this.activity.num=a.num
+      this.activity.plan_num=a.plan_num
       this.activity.contact=a.contact
       this.activity.is_pair=a.is_pair?true:false
 
@@ -255,11 +262,13 @@ export default {
 
 
 
-    //海报上传
+    //海报上传成功返回
     handlePosterSuccess(res, file) {
+      // console.log(res)//url
       // this.activity.poster = URL.createObjectURL(file.raw);
-      this.activity.poster=res.qi,
-      this.activity.posterView=res.url
+      // this.activity.poster=res.qi,
+      // this.activity.posterView=res.url
+      this.activity.posterView=res
     },
     beforePosterUpload(file) {
       const isJPG = file.type === 'image/jpeg';
@@ -283,10 +292,12 @@ export default {
       let quill = this.$refs.myQuillEditor.quill
       // 如果上传成功
       if (res) {
+        // console.log('aaa',res)//res> url
         // 获取光标所在位置
         let length = quill.getSelection().index;
         // 插入图片  res.url为服务器返回的图片地址
-        quill.insertEmbed(length, 'image', res.url)
+        // quill.insertEmbed(length, 'image', res.url)
+        quill.insertEmbed(length, 'image', res)
         // 调整光标到最后
         quill.setSelection(length + 1)
       } else {
@@ -330,7 +341,7 @@ export default {
         address:this.activity.address,
 
         price:this.activity.price,
-        num:this.activity.num,
+        plan_num:this.activity.plan_num,
         contact:this.activity.contact,
         is_pair:this.activity.is_pair,
       })
@@ -360,15 +371,14 @@ export default {
   .el-row{
 
   }
-  .avatar-uploader{
-    background-color: white;
-  }
-  .avatar-uploader .el-upload {
+  .avatar-uploader >>> .el-upload{
+
     border: 1px dashed #d9d9d9;
     border-radius: 6px;
     cursor: pointer;
     position: relative;
     overflow: hidden;
+    background: white;
 
   }
   .avatar-uploader .el-upload:hover {

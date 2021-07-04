@@ -62,7 +62,6 @@ export default {
   components: {},
   data() {
     return {
-      domain: domain.qiNiuUrl + '/',//七牛储存地址
 
       merchant_id: 0,
 
