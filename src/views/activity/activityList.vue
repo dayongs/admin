@@ -265,8 +265,8 @@ export default {
 
       this.loading=false
       this.tableData=activities.data
-      console.log('222',this.tableData);
-      this.total=this.tableData.length
+      // console.log('222',this.tableData);
+      // this.total=this.tableData.length
     },
 
 
