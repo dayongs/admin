@@ -8,8 +8,6 @@ import axios from "axios";
 axios.defaults.baseURL =domain.devUrl;
 global.domain = domain;
 
-
-
 Vue.prototype.$http=axios
 
 

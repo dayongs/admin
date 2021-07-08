@@ -72,9 +72,6 @@ export default {
   components: {  },
   data() {
     return {
-
-
-
       loading: false,
       cityloading: false,
       areasValue:[],//选择城市
@@ -91,7 +88,6 @@ export default {
         province_code :0,
         city_code  :0,
         district_code :0,
-
 
         user_uuid :'',
       },
@@ -113,10 +109,8 @@ export default {
       const url='/merchants/'+this.merchant_id
       const merchant= await this.$http.get(url,{})
       let a=merchant.data
-      console.log(a)
+      // console.log(a)
       this.merchant.name=a.name
-      // this.merchant.poster=a.poster
-      // this.merchant.posterView=domain.qiNiuUrl+'/' +a.poster
       this.merchant.address=a.address
       this.merchant.introduction=a.introduction
       this.merchant.contact_phone=a.contact_phone

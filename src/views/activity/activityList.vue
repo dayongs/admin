@@ -80,10 +80,6 @@
       <el-table-column
           prop="poster"
           width="70">
-<!--        <template slot-scope="scope" class="block" >-->
-<!--          {{domain.qiNiuUrl}}-->
-<!--          <img :src="domain +scope.row.poster"  fit="contain" alt="" style="width: 50px;">-->
-<!--        </template>-->
         <template slot-scope="scope" class="block" >
           <img :src="scope.row.poster_url"  fit="contain" alt="" style="width: 50px;">
         </template>
@@ -225,7 +221,6 @@ export default {
       keyword:'',//搜索关键词
 
       addDialogVisible:false,//是否显示
-      domain:domain.qiNiuUrl+'/',//七牛储存地址
 
       loading: false,//加载
 
