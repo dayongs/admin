@@ -220,7 +220,7 @@ export default {
       total:0,//总页数
       keyword:'',//搜索关键词
 
-      addDialogVisible:false,//是否显示
+      addDialogVisible:false,//是否显示cd /mnt/docker/project/
 
       loading: false,//加载
 

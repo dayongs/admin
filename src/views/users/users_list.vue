@@ -44,8 +44,8 @@
             <el-form-item label="城市:">
               <span>{{ props.row.full_address }}</span>
             </el-form-item>
-            <el-form-item label="活动内容:" :span="20">
-              <span v-html="props.row.content"></span>
+            <el-form-item label="介绍:" :span="20">
+              <span v-html="props.row.description"></span>
             </el-form-item>
 
           </el-form>
